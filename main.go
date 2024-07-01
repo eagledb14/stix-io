@@ -1,15 +1,16 @@
 package main
 
 import (
-    "fmt"
+    // "fmt"
     "os"
 )
 
 func main() {
     // fmt.Println(read())
-    for _, i := range read().Object {
-        fmt.Println(i.Pattern)
-    }
+    read().ToYara()
+    // for _, i := range read().object {
+    //     fmt.println(i.pattern)
+    // }
 }
 
 func read() Bundle {
