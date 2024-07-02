@@ -1,13 +1,15 @@
 package main
 
 import (
-    // "fmt"
+    "fmt"
     "os"
 )
 
 func main() {
     // fmt.Println(read())
-    read().ToYara()
+    fmt.Println("hi")
+    // fmt.Println(read().ToYara().File())
+    read().ToYara().Csv()
     // for _, i := range read().object {
     //     fmt.println(i.pattern)
     // }
