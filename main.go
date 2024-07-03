@@ -9,7 +9,7 @@ func main() {
     // fmt.Println(read())
     fmt.Println("hi")
     // fmt.Println(read().ToYara().File())
-    read().ToYara().Csv()
+    fmt.Println(read().ToYara().File())
     // for _, i := range read().object {
     //     fmt.println(i.pattern)
     // }

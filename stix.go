@@ -19,9 +19,16 @@ type Object struct {
 func (b Bundle) ToYara() Yara {
     out := []Indicator{}
     for _, obj := range b.Object {
+        if obj.Pattern == "[]" {
+            continue
+        }
+
         obj.Pattern = strings.TrimLeft(obj.Pattern, "[")
         obj.Pattern = strings.TrimRight(obj.Pattern, "]")
-        strSplit := strings.Split(obj.Pattern, " AND ")
+
+        re := regexp.MustCompile(` AND | OR `)
+        strSplit := re.Split(obj.Pattern, -1)
+
         for _, s := range strSplit {
             s = strings.TrimLeft(s, "(")
             s = strings.TrimRight(s, ")")
@@ -41,7 +48,7 @@ func (b Bundle) ToYara() Yara {
 } 
 
 func parsePattern(pattern string) (string, string, string) {
-    re := regexp.MustCompile(`[:| = ]`)
+    re := regexp.MustCompile(`:| = | MATCHES | ISSUBSET `)
     strs := re.Split(pattern, -1)
 
     trimmedData := strings.Trim(strs[len(strs) - 1], "'")
