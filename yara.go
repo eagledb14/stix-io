@@ -3,7 +3,6 @@ package main
 import (
 	"bytes"
 	"encoding/csv"
-	"os"
 	"strings"
 	"text/template"
 )
@@ -33,17 +32,21 @@ func (y Yara) File() string {
     return out
 }
 
-func (y Yara) Csv() {
-    file, _ := os.Create("indicators.csv")
-    defer file.Close()
+func (y Yara) Csv() string {
+    // file, _ := os.Create("indicators.csv")
+    // defer file.Close()
+    buf := bytes.Buffer{}
 
-    writer := csv.NewWriter(file)
+    writer := csv.NewWriter(&buf)
     defer writer.Flush()
 
     writer.Write([]string{"name", "type", "value", "data"})
     for _, ind := range y.Indicator {
         writer.Write([]string{ind.Name, ind.Type, ind.Value, ind.Data})
     }
+    writer.Flush()
+
+    return buf.String()
 }
 
 type Indicator struct {
