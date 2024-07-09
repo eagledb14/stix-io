@@ -1,4 +1,4 @@
-# stix-io
+# Stix-io
 Creates indicator CSVs and Yara rules from stix bundles.
 
 # Running
