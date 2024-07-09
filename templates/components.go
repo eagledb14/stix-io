@@ -49,6 +49,18 @@ func header() string {
             <title>STIX-IO</title>
             <script src="https://unpkg.com/htmx.org@1.9.12" integrity="sha384-ujb1lZYygJmzgSwoxRggbCHcjc0rB2XoQrxeTUQyRjrOnlCoYta87iKBWq3EsdM2" crossorigin="anonymous"></script>
             <link rel="stylesheet" type="text/css" href="/style.css">
+            <script>
+                function copyText() {
+                    var copyText = document.getElementById("yara");
+
+                    copyText.select();
+                    copyText.setSelectionRange(0, 99999); // For mobile devices
+
+                    navigator.clipboard.writeText(copyText.value);
+
+                    alert("Copied text: " + copyText.value);
+                }
+            </script>
         </head>
         `
 }
