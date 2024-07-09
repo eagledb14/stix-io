@@ -33,8 +33,6 @@ func (y Yara) File() string {
 }
 
 func (y Yara) Csv() string {
-    // file, _ := os.Create("indicators.csv")
-    // defer file.Close()
     buf := bytes.Buffer{}
 
     writer := csv.NewWriter(&buf)

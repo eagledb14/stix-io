@@ -15,6 +15,10 @@ body {
 	background-color: #56A2E1;
 }
 
+.gray {
+	background-color: #353A3F;
+}
+
 .banner {
 	justify-content: space-between;
 	align-items: center;
@@ -53,8 +57,8 @@ button {
 
 textarea {
 	padding: 10px;
+	margin: 10px;
+	min-height: 500px;
+	resize: none;
 }
 
-.gray {
-	background-color: #353A3F;
-}

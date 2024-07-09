@@ -16,14 +16,14 @@ func Index(stix, yara string) string {
     const index = `
     <form name="yara" hx-target="body">
         <div class="grid-center">
-            <div>
+            <div class="middle">
                 <button class="middle blue" hx-post="/csv">Csv</button>
                 <button class="middle blue" hx-post="/yara">Yara</button>
             </div>
         </div>
         <div class="content">
-            <textarea placeholder="Stix Input" class="gray" name="stix">{{.Stix}}</textarea>
-            <textarea placeholder="Yara Input" class="gray" name="yara">{{.Yara}}</textarea>
+            <textarea autofocus required placeholder="Stix Input" class="gray" name="stix">{{.Stix}}</textarea>
+            <textarea readonly placeholder="Yara Input" class="gray" name="yara">{{.Yara}}</textarea>
         </div>
     </form>
     `
