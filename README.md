@@ -13,3 +13,11 @@ chmod +x build.sh
 ```
 will create both windows and linux builds
 requires golang to be downloaded
+
+# Clean up
+
+Clean up can be done by running:
+```
+chmod +x clean.sh  
+./clean.sh
+```
