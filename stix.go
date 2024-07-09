@@ -4,6 +4,7 @@ import (
     "encoding/json"
     "regexp"
     "strings"
+    "errors"
 )
 
 type Bundle struct {
@@ -55,9 +56,12 @@ func parsePattern(pattern string) (string, string, string) {
     return strs[0], strs[1], trimmedData
 }
 
-func Unmarshall(input string) Bundle {
+func Unmarshall(input string) (Bundle, error) {
     out := Bundle{}
-    json.Unmarshal([]byte(input), &out)
+    err := json.Unmarshal([]byte(input), &out)
+    if err != nil {
+        return out, errors.New("Invalid JSON, Input valid STIX Bundle") 
+    }
 
     filteredObjects := []Object{}
     for _, o := range out.Object {
@@ -66,5 +70,5 @@ func Unmarshall(input string) Bundle {
         }
     }
     out.Object = filteredObjects
-    return out
+    return out, nil
 }

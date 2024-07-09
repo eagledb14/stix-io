@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"log"
 	"net"
-	"os"
         "os/exec"
         "runtime"
 	"strconv"
@@ -30,14 +29,6 @@ func getPort() string {
     return ":" + strconv.Itoa(port)
 }
 
-func read() Bundle {
-    content, err := os.ReadFile("input.txt")
-    if err != nil {
-        panic("unkown file name")
-    }
-    return Unmarshall(string(content))
-}
-
 func serv(port string) {
     app := fiber.New()
     app.Get("/", func(c fiber.Ctx) error {
@@ -52,7 +43,10 @@ func serv(port string) {
         c.Set("Content-Type", "text/html")
 
         stixJson := c.FormValue("stix")
-        stix := Unmarshall(stixJson)
+        stix, err := Unmarshall(stixJson)
+        if err != nil {
+            return c.SendString(t.BuildPage(t.Index(stixJson, err.Error())))
+        }
 
         yara := stix.ToYara().File()
 
@@ -63,7 +57,10 @@ func serv(port string) {
         c.Set("Content-Type", "text/html")
 
         stixJson := c.FormValue("stix")
-        stix := Unmarshall(stixJson)
+        stix, err := Unmarshall(stixJson)
+        if err != nil {
+            return c.SendString(t.BuildPage(t.Index(stixJson, err.Error())))
+        }
 
         yara := stix.ToYara().Csv()
 
