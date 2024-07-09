@@ -24,7 +24,7 @@ func Index(stix, yara string) string {
         </div>
         <div class="content">
             <textarea autofocus required placeholder="Stix Input" class="gray" name="stix">{{.Stix}}</textarea>
-            <textarea readonly placeholder="Yara Input" class="gray" name="yara" id="yara">{{.Yara}}</textarea>
+            <textarea readonly placeholder="Yara Output" class="gray" name="yara" id="yara">{{.Yara}}</textarea>
         </div>
     </form>
     `

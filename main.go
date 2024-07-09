@@ -1,24 +1,33 @@
 package main
 
 import (
-	// "fmt"
-
+	"fmt"
 	"log"
+	"net"
 	"os"
+        "os/exec"
+        "runtime"
+	"strconv"
 
 	t "github.com/eagledb14/stix-io/templates"
 	"github.com/gofiber/fiber/v3"
 )
 
 func main() {
-    // fmt.Println(read())
-    // fmt.Println("hi")
-    // fmt.Println(read().ToYara().File())
-    // read().ToYara().Csv()
-    // for _, i := range read().object {
-    //     fmt.println(i.pattern)
-    // }
-    serv()
+    port := getPort()
+    fmt.Print("Listening on " + port + "\n")
+    serv(port)
+}
+
+func getPort() string {
+    listener, err := net.Listen("tcp", ":0")
+    if err != nil {
+        panic("Port not available" + err.Error())
+    }
+    defer listener.Close()
+
+    port := listener.Addr().(*net.TCPAddr).Port
+    return ":" + strconv.Itoa(port)
 }
 
 func read() Bundle {
@@ -29,7 +38,7 @@ func read() Bundle {
     return Unmarshall(string(content))
 }
 
-func serv() {
+func serv(port string) {
     app := fiber.New()
     app.Get("/", func(c fiber.Ctx) error {
 	c.Set("Content-Type", "text/html")
@@ -61,6 +70,25 @@ func serv() {
         return c.SendString(t.BuildPage(t.Index(stixJson, yara)))
     })
 
-
-    log.Fatal(app.Listen(":3000"))
+    openBrowser("http://localhost" + port)
+    log.Fatal(app.Listen(port))
 }
+
+func openBrowser(url string) {
+    var err error
+
+    switch runtime.GOOS {
+    case "linux":
+        err = exec.Command("xdg-open", url).Start()
+    case "windows":
+        err = exec.Command("rundll32", "url.dll,FileProtocolHandler", url).Start()
+    case "darwin":
+        err = exec.Command("open", url).Start()
+    default:
+        err = fmt.Errorf("unsupported platform")
+    }
+
+    if err != nil {
+        fmt.Println("Error opening browser:", err)
+    }
+} 
