@@ -67,7 +67,7 @@ func serv(port string) {
         return c.SendString(t.BuildPage(t.Index(stixJson, yara)))
     })
 
-    openBrowser("http://localhost" + port)
+    go func() {openBrowser("http://localhost" + port)}()
     log.Fatal(app.Listen(port))
 }
 
